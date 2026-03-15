@@ -26,7 +26,6 @@
       overflow-x: hidden;
     }
 
-    /* Starfield */
     body::before {
       content: '';
       position: fixed;
@@ -54,7 +53,6 @@
       padding: 40px 20px 80px;
     }
 
-    /* Hero */
     .hero {
       text-align: center;
       padding: 60px 20px 40px;
@@ -63,16 +61,15 @@
     .globe-emoji {
       font-size: 80px;
       display: block;
-      animation: spin 8s linear infinite;
+      animation: wobble 4s ease-in-out infinite;
       margin-bottom: 16px;
     }
 
-    @keyframes spin {
-      0% { transform: rotate(-5deg) scale(1); }
+    @keyframes wobble {
+      0%, 100% { transform: rotate(-5deg) scale(1); }
       25% { transform: rotate(5deg) scale(1.05); }
-      50% { transform: rotate(-5deg) scale(1); }
-      75% { transform: rotate(5deg) scale(1.05); }
-      100% { transform: rotate(-5deg) scale(1); }
+      50% { transform: rotate(-3deg) scale(1); }
+      75% { transform: rotate(4deg) scale(1.05); }
     }
 
     .title {
@@ -101,7 +98,6 @@
       margin-bottom: 40px;
     }
 
-    /* Divider */
     .divider {
       display: flex;
       align-items: center;
@@ -116,7 +112,6 @@
     }
     .divider span { font-size: 1.4rem; }
 
-    /* Counter badge */
     .counter {
       text-align: center;
       margin-bottom: 40px;
@@ -133,7 +128,6 @@
       box-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
     }
 
-    /* Items */
     .items {
       display: flex;
       flex-direction: column;
@@ -151,6 +145,12 @@
       position: relative;
       overflow: hidden;
       transition: transform 0.2s, box-shadow 0.2s;
+      animation: slideIn 0.4s ease-out;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .item:hover {
@@ -216,19 +216,131 @@
       border: 1px solid rgba(255,228,77,0.3);
     }
 
-    /* More coming soon */
-    .coming-soon {
-      text-align: center;
+    /* Add item section */
+    .add-section {
       margin-top: 40px;
-      padding: 32px;
+      background: rgba(255,255,255,0.04);
       border: 2px dashed rgba(255,255,255,0.15);
-      border-radius: 20px;
-      color: rgba(255,255,255,0.3);
+      border-radius: 24px;
+      padding: 32px;
+      transition: border-color 0.2s;
     }
-    .coming-soon .cs-emoji { font-size: 2.5rem; display: block; margin-bottom: 10px; }
-    .coming-soon p { font-size: 1rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+    .add-section:focus-within {
+      border-color: var(--pink);
+      border-style: solid;
+    }
 
-    /* Footer */
+    .add-title {
+      font-family: 'Pacifico', cursive;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, var(--yellow), var(--orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .add-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      min-width: 150px;
+    }
+
+    .form-field label {
+      font-size: 0.8rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .form-field input {
+      background: rgba(255,255,255,0.08);
+      border: 2px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 12px 16px;
+      color: white;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-field input:focus {
+      border-color: var(--pink);
+    }
+
+    .form-field input::placeholder {
+      color: rgba(255,255,255,0.25);
+    }
+
+    .btn-add {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      border: none;
+      border-radius: 14px;
+      padding: 14px 32px;
+      color: white;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+      box-shadow: 0 4px 20px rgba(255,110,180,0.3);
+      align-self: flex-start;
+    }
+
+    .btn-add:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(255,110,180,0.5);
+    }
+
+    .btn-add:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: linear-gradient(135deg, var(--teal), var(--purple));
+      color: white;
+      font-weight: 900;
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-size: 1rem;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 100;
+      white-space: nowrap;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: rgba(255,255,255,0.4);
+      font-size: 2rem;
+      animation: pulse 1.2s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+
     .footer {
       text-align: center;
       margin-top: 60px;
@@ -238,7 +350,6 @@
       letter-spacing: 1px;
     }
 
-    /* Confetti dots */
     .confetti {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -248,7 +359,6 @@
     }
     .dot {
       position: absolute;
-      width: 8px; height: 8px;
       border-radius: 50%;
       animation: fall linear infinite;
       opacity: 0.6;
@@ -261,7 +371,6 @@
 </head>
 <body>
 
-  <!-- Floating confetti dots -->
   <div class="confetti" id="confetti"></div>
 
   <div class="container">
@@ -279,26 +388,35 @@
     </div>
 
     <div class="counter">
-      <span class="counter-badge">🗺️ &nbsp;1 Adventure Locked In &nbsp;🗺️</span>
+      <span class="counter-badge" id="counter-badge">🗺️ &nbsp;Loading... &nbsp;🗺️</span>
     </div>
 
-    <div class="items">
+    <div class="items" id="items-list">
+      <div class="loading">✨</div>
+    </div>
 
-      <div class="item">
-        <div class="item-number">1</div>
-        <div class="item-body">
-          <span class="item-emoji">🏨🌊</span>
-          <div class="item-title">Stay at Aethos Ericeira</div>
-          <div class="item-location">📍 Ericeira, Portugal</div>
-          <span class="item-status">⏳ On The List</span>
+    <!-- Add item form -->
+    <div class="add-section">
+      <div class="add-title">✍️ Add a new adventure</div>
+      <div class="add-form">
+        <div class="form-row">
+          <div class="form-field" style="flex: 2; min-width: 200px;">
+            <label>Adventure *</label>
+            <input id="input-title" type="text" placeholder="e.g. Road trip across Iceland" />
+          </div>
+          <div class="form-field" style="flex: 0 0 80px; min-width: 80px;">
+            <label>Emoji</label>
+            <input id="input-emoji" type="text" placeholder="🌋" maxlength="4" />
+          </div>
         </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label>Location</label>
+            <input id="input-location" type="text" placeholder="e.g. Iceland" />
+          </div>
+        </div>
+        <button class="btn-add" id="btn-add" onclick="addItem()">🚀 Add to the list!</button>
       </div>
-
-    </div>
-
-    <div class="coming-soon">
-      <span class="cs-emoji">🔮</span>
-      <p>More adventures incoming...</p>
     </div>
 
     <div class="footer">
@@ -306,21 +424,108 @@
     </div>
   </div>
 
+  <div class="toast" id="toast">🎉 Adventure added!</div>
+
   <script>
-    // Generate confetti dots
+    // Confetti
     const confetti = document.getElementById('confetti');
-    const colors = ['#ff6eb4','#ffe44d','#00d4c8','#a855f7','#ff8c42','#ffffff'];
+    const colors = ['#ff6eb4','#ffe44d','#00d4c8','#a855f7','#ff8c42'];
     for (let i = 0; i < 30; i++) {
       const dot = document.createElement('div');
       dot.className = 'dot';
       dot.style.left = Math.random() * 100 + '%';
-      dot.style.top = Math.random() * 100 + '%';
       dot.style.background = colors[Math.floor(Math.random() * colors.length)];
       dot.style.width = dot.style.height = (4 + Math.random() * 8) + 'px';
-      dot.style.animationDuration = (6 + Math.random() * 12) + 's';
-      dot.style.animationDelay = (Math.random() * 8) + 's';
+      dot.style.animationDuration = (8 + Math.random() * 14) + 's';
+      dot.style.animationDelay = (Math.random() * 10) + 's';
       confetti.appendChild(dot);
     }
+
+    // State
+    let items = [];
+
+    function renderItems() {
+      const list = document.getElementById('items-list');
+      const badge = document.getElementById('counter-badge');
+      badge.innerHTML = `🗺️ &nbsp;${items.length} Adventure${items.length !== 1 ? 's' : ''} Locked In &nbsp;🗺️`;
+      if (items.length === 0) {
+        list.innerHTML = '<div style="text-align:center;color:rgba(255,255,255,0.3);padding:40px;font-weight:700;">No adventures yet — add one below! 👇</div>';
+        return;
+      }
+      list.innerHTML = items.map((item, i) => `
+        <div class="item">
+          <div class="item-number">${i + 1}</div>
+          <div class="item-body">
+            <span class="item-emoji">${item.emoji || '🌍'}</span>
+            <div class="item-title">${escHtml(item.title)}</div>
+            ${item.location ? `<div class="item-location">📍 ${escHtml(item.location)}</div>` : ''}
+            <span class="item-status">${item.done ? '✅ Done!' : '⏳ On The List'}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function escHtml(s) {
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    async function loadItems() {
+      try {
+        const res = await fetch('/api/items');
+        const data = await res.json();
+        items = data.items || [];
+        renderItems();
+      } catch (e) {
+        document.getElementById('items-list').innerHTML = '<div style="text-align:center;color:rgba(255,100,100,0.6);padding:40px;">Couldn\'t load items 😢 Try refreshing!</div>';
+      }
+    }
+
+    async function addItem() {
+      const title = document.getElementById('input-title').value.trim();
+      const emoji = document.getElementById('input-emoji').value.trim() || '🌍';
+      const location = document.getElementById('input-location').value.trim();
+      if (!title) {
+        document.getElementById('input-title').focus();
+        return;
+      }
+      const btn = document.getElementById('btn-add');
+      btn.disabled = true;
+      btn.textContent = '✨ Adding...';
+      try {
+        const res = await fetch('/api/items', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ title, emoji, location }),
+        });
+        if (!res.ok) throw new Error('Failed');
+        const newItem = await res.json();
+        items.push(newItem);
+        renderItems();
+        document.getElementById('input-title').value = '';
+        document.getElementById('input-emoji').value = '';
+        document.getElementById('input-location').value = '';
+        showToast('🎉 Adventure added to the list!');
+      } catch (e) {
+        showToast('😬 Something went wrong, try again!');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '🚀 Add to the list!';
+      }
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    // Enter key on title field
+    document.getElementById('input-title').addEventListener('keydown', e => {
+      if (e.key === 'Enter') addItem();
+    });
+
+    loadItems();
   </script>
 
 </body>

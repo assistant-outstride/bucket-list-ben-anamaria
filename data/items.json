@@ -1,0 +1,12 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "emoji": "🏨🌊",
+      "title": "Stay at Aethos Ericeira",
+      "location": "Ericeira, Portugal",
+      "done": false,
+      "addedAt": "2026-03-15T00:00:00.000Z"
+    }
+  ]
+}
