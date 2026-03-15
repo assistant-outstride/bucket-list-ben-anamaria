@@ -3,19 +3,22 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
-  const prompt = `Generate one absolutely wild, memorable, slightly unhinged bucket list adventure idea for two close friends. 
-Make it specific, vivid, and genuinely exciting — not generic stuff like "skydiving" or "see the northern lights". 
-Think: unusual locations, bizarre festivals, ridiculous challenges, hidden gems, epic journeys.
-Return ONLY a JSON object with these fields:
+  const count = Math.min(parseInt(req.query.count || '10'), 20);
+
+  const prompt = `Generate ${count} completely different, wild, memorable bucket list adventure ideas for two close friends.
+Make them specific, vivid, and genuinely exciting — NOT generic stuff like skydiving or northern lights.
+Think: bizarre festivals, unusual locations, ridiculous challenges, hidden gems, epic journeys, surreal experiences.
+Each idea must be totally different from the others — different countries, different vibes, different energy.
+
+Return ONLY a valid JSON array of ${count} objects. Each object:
 - title: short punchy name (max 8 words)
-- emoji: 1-2 relevant emojis
+- emoji: 1-2 relevant emojis  
 - location: city/country or region
-- tagline: one sentence that makes it sound irresistible (max 20 words)
+- tagline: one sentence that makes it irresistible (max 20 words)
 
-Example format:
-{"title":"Attend the World Bog Snorkelling Championship","emoji":"🐸🏊","location":"Llanwrtyd Wells, Wales","tagline":"Race through a peat bog in a wetsuit. Losers buy the pints."}
+Example item: {"title":"Compete in the World Bog Snorkelling Championship","emoji":"🐸🏊","location":"Llanwrtyd Wells, Wales","tagline":"Race through a peat bog in a wetsuit. Losers buy the pints."}
 
-Only return valid JSON. No markdown. No explanation.`;
+Return ONLY the JSON array. No markdown. No explanation. No wrapper object.`;
 
   try {
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -28,15 +31,15 @@ Only return valid JSON. No markdown. No explanation.`;
         model: 'gpt-4o-mini',
         messages: [{ role: 'user', content: prompt }],
         temperature: 1.1,
-        max_tokens: 200,
+        max_tokens: 1500,
       }),
     });
 
     const data = await response.json();
     const text = data.choices?.[0]?.message?.content?.trim();
-    const idea = JSON.parse(text);
-    return res.status(200).json(idea);
+    const ideas = JSON.parse(text);
+    return res.status(200).json(Array.isArray(ideas) ? ideas : [ideas]);
   } catch (e) {
-    return res.status(500).json({ error: 'Failed to generate idea', detail: e.message });
+    return res.status(500).json({ error: 'Failed to generate ideas', detail: e.message });
   }
 }
